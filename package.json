@@ -2,7 +2,7 @@
     "name": "jump-to-test-and-back",
     "displayName": "Jump to Test and Back",
     "description": "Open test file based on current file's name",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "maxschwenk",
     "engines": {
         "vscode": "^1.21.0"
