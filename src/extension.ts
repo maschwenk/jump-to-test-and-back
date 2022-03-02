@@ -6,7 +6,7 @@ import * as path from 'path';
 const findAndNavigateToFile = (globPattern: any) : void => {
   vscode.workspace.findFiles(globPattern, '**/node_modules').then((ps: vscode.Uri[]): void => {
     if (ps.length === 0) {
-      vscode.window.setStatusBarMessage(`jumpToTestAndBack: Unable to find test file using glob ${globPattern}`, 30000);
+      vscode.window.setStatusBarMessage(`jumpToTestAndBack: Unable to find test file using glob ${globPattern.pattern}`, 30000);
       return;  
     }
     if (ps.length > 1) {
@@ -26,9 +26,8 @@ export function activate(context: vscode.ExtensionContext) {
 
     if (fileName.endsWith('.test.ts')) {
       // For tests, we need to jump out of the __tests__ directory
-      // For some reason, resolve adds a leading slash, so we need to remove it with substring
       const adjustedPath = containingDirectoryAsRelativePath.endsWith('__tests__') ? 
-        path.resolve(containingDirectoryAsRelativePath, '..').substring(1) :
+        vscode.workspace.asRelativePath(path.resolve(containingDirectoryAsRelativePath, '..')) :
         containingDirectoryAsRelativePath
       const relativeGlob = new vscode.RelativePattern(workspaceRoot, `${adjustedPath}/**/${fileName.replace('.test.ts', '.ts')}`)
       findAndNavigateToFile(relativeGlob);
