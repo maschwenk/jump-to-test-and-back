@@ -4,7 +4,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 
 const findAndNavigateToFile = (globPattern: string) : void => {
-  vscode.workspace.findFiles(globPattern, null, 1).then((ps: vscode.Uri[]): void => {
+  vscode.workspace.findFiles(globPattern, undefined, 2).then((ps: vscode.Uri[]): void => {
     if (ps.length === 0) {
       vscode.window.setStatusBarMessage(`jumpToTestAndBack: Unable to find test file using glob ${globPattern}`, 30000);
       return;  
