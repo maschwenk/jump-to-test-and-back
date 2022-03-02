@@ -4,13 +4,13 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 
 const findAndNavigateToFile = (globPattern: string) : void => {
-  vscode.workspace.findFiles(globPattern, undefined, 2).then((ps: vscode.Uri[]): void => {
+  vscode.workspace.findFiles(globPattern, '**/node_modules').then((ps: vscode.Uri[]): void => {
     if (ps.length === 0) {
       vscode.window.setStatusBarMessage(`jumpToTestAndBack: Unable to find test file using glob ${globPattern}`, 30000);
       return;  
     }
     if (ps.length > 1) {
-      vscode.window.setStatusBarMessage('jumpToTestAndBack: Found multiple results, going with the first', 30000);
+      vscode.window.setStatusBarMessage(`jumpToTestAndBack: Found ${ps.length} results, going with the first`, 30000);
     }  
 
     vscode.commands.executeCommand('vscode.open', vscode.Uri.file(ps[0].path));
